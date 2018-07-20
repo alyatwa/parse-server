@@ -38,10 +38,24 @@ const defaultColumns: {[string]: SchemaFields} = Object.freeze({
   _User: {
     "username":      {type:'String'},
     "password":      {type:'String'},
+    "img":           {type:'String'},
+    "ip":           {type:'String'},
+    "country":      {type:'String'},
+    "img":           {type:'File'},
+    "FCM":           {type:'String'},
     "email":         {type:'String'},
     "emailVerified": {type:'Boolean'},
-    "authData":      {type:'Object'}
+    "authData":      {type:'Object'},
+    "new":          {type:'Number'},
   },
+  
+  _PrivateRecord: {
+    "recordId":      {type:'String'},
+    "sender":      {type:'String'},
+    "file":           {type:'File'},
+    "receiverId":   {type:'String'}
+  },
+  
   // The additional default columns for the _Installation collection (in addition to DefaultCols)
   _Installation: {
     "installationId":   {type:'String'},
