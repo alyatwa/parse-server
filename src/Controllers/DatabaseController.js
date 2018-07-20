@@ -1099,19 +1099,19 @@ class DatabaseController {
       });
     
     const publicuserUniqueness = roleClassPromise
-      .then(() => this.adapter.ensureUniqueness('_PublicUser', requiredRoleFields, ['objectId']))
+      .then(() => this.adapter.ensureUniqueness('_PublicUser', publicuser, ['objectId']))
       .catch(error => {
         logger.warn('Unable to ensure uniqueness for publicuser: ', error);
         throw error;
       });
         const privaterecordUniqueness = roleClassPromise
-      .then(() => this.adapter.ensureUniqueness('_PrivateRecord', requiredRoleFields, ['objectId']))
+      .then(() => this.adapter.ensureUniqueness('_PrivateRecord', privaterecord, ['objectId']))
       .catch(error => {
         logger.warn('Unable to ensure uniqueness for private record: ', error);
         throw error;
       });
         const recordsUniqueness = roleClassPromise
-      .then(() => this.adapter.ensureUniqueness('_Records', requiredRoleFields, ['objectId']))
+      .then(() => this.adapter.ensureUniqueness('_Records', records, ['objectId']))
       .catch(error => {
         logger.warn('Unable to ensure uniqueness for records: ', error);
         throw error;
