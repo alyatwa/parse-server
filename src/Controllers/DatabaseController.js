@@ -1060,11 +1060,22 @@ class DatabaseController {
   performInitialization() {
     const requiredUserFields = { fields: { ...SchemaController.defaultColumns._Default, ...SchemaController.defaultColumns._User } };
     const requiredRoleFields = { fields: { ...SchemaController.defaultColumns._Default, ...SchemaController.defaultColumns._Role } };
+    
+    const publicuser = { fields: { ...SchemaController.defaultColumns._Default, ...SchemaController.defaultColumns._PublicUser } };
+    const privaterecord = { fields: { ...SchemaController.defaultColumns._Default, ...SchemaController.defaultColumns._PrivateRecord } };
+    const records = { fields: { ...SchemaController.defaultColumns._Default, ...SchemaController.defaultColumns._Records } };
 
     const userClassPromise = this.loadSchema()
       .then(schema => schema.enforceClassExists('_User'))
     const roleClassPromise = this.loadSchema()
       .then(schema => schema.enforceClassExists('_Role'))
+    
+     const publicuserPromise = this.loadSchema()
+      .then(schema => schema.enforceClassExists('_PublicUser'))
+     const privaterecordPromise = this.loadSchema()
+      .then(schema => schema.enforceClassExists('_PrivateRecord'))
+     const recordsPromise = this.loadSchema()
+      .then(schema => schema.enforceClassExists('_Records'))   
 
     const usernameUniqueness = userClassPromise
       .then(() => this.adapter.ensureUniqueness('_User', requiredUserFields, ['username']))
@@ -1086,12 +1097,31 @@ class DatabaseController {
         logger.warn('Unable to ensure uniqueness for role name: ', error);
         throw error;
       });
+    
+    const publicuserUniqueness = roleClassPromise
+      .then(() => this.adapter.ensureUniqueness('_PublicUser', requiredRoleFields, ['objectId']))
+      .catch(error => {
+        logger.warn('Unable to ensure uniqueness for publicuser: ', error);
+        throw error;
+      });
+        const privaterecordUniqueness = roleClassPromise
+      .then(() => this.adapter.ensureUniqueness('_PrivateRecord', requiredRoleFields, ['objectId']))
+      .catch(error => {
+        logger.warn('Unable to ensure uniqueness for private record: ', error);
+        throw error;
+      });
+        const recordsUniqueness = roleClassPromise
+      .then(() => this.adapter.ensureUniqueness('_Records', requiredRoleFields, ['objectId']))
+      .catch(error => {
+        logger.warn('Unable to ensure uniqueness for records: ', error);
+        throw error;
+      });
 
     const indexPromise = this.adapter.updateSchemaWithIndexes();
 
     // Create tables for volatile classes
     const adapterInit = this.adapter.performInitialization({ VolatileClassesSchemas: SchemaController.VolatileClassesSchemas });
-    return Promise.all([usernameUniqueness, emailUniqueness, roleUniqueness, adapterInit, indexPromise]);
+    return Promise.all([usernameUniqueness, publicuserUniqueness, recordsUniqueness, privaterecordUniqueness, emailUniqueness, roleUniqueness, adapterInit, indexPromise]);
   }
 
   static _validateQuery: ((any) => void)
