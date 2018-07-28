@@ -39,19 +39,19 @@ const defaultColumns: {[string]: SchemaFields} = Object.freeze({
     "username":      {type:'String'},
     "password":      {type:'String'},
     "img":           {type:'String'},
-    "ip":           {type:'String'},
-    "country":      {type:'String'},
+    "ip":            {type:'String'},
+    "country":       {type:'String'},
     "img":           {type:'File'},
     "FCM":           {type:'String'},
     "email":         {type:'String'},
     "emailVerified": {type:'Boolean'},
     "authData":      {type:'Object'},
-    "new":          {type:'Number'},
+    "new":           {type:'Number'},
   },
   
   _PrivateRecord: {
     "recordId":      {type:'String'},
-    "sender":      {type:'String'},
+    "sender":        {type:'String'},
     "file":           {type:'File'},
     "receiverId":   {type:'String'}
   },
